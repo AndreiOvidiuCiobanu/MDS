@@ -24,9 +24,6 @@ public class TripViewHolder extends RecyclerView.ViewHolder {
         mTextViewRating = itemView.findViewById(R.id.textview_rating);
         mCheckBoxFavourite = itemView.findViewById(R.id.checkbox_bookmark);
     }
-
-
-
 }
 
 
