@@ -95,7 +95,7 @@ public class Trip implements Parcelable {
         dest.writeString(mDocumentId);
         dest.writeByte((byte)(mIsFavourite == true ? 1 : 0));
     }
-    
+
     public Trip(String mName, String mDestination, Uri mPicture, float mRating, TripType mTripType, float mPrice, Calendar mStartDate, Calendar mEndDate) {
         this.mName = mName;
         this.mDestination = mDestination;
