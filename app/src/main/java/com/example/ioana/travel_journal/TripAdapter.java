@@ -24,7 +24,6 @@ public class TripAdapter extends RecyclerView.Adapter<TripViewHolder> {
     public TripAdapter(List<DocumentSnapshot> lista,boolean isFavourite){
         mList = lista;
         mIsFavourite = isFavourite;
-
     }
 
     @NonNull
@@ -35,7 +34,6 @@ public class TripAdapter extends RecyclerView.Adapter<TripViewHolder> {
         context = viewGroup.getContext();
         //returnam un viewHolder
         return new TripViewHolder(tripView);
-
     }
 
     @Override
@@ -71,6 +69,4 @@ public class TripAdapter extends RecyclerView.Adapter<TripViewHolder> {
     public DocumentSnapshot getItemAtPosition(int position){
         return this.mList.get(position);
     }
-
-
 }

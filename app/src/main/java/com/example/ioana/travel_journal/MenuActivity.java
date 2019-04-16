@@ -99,8 +99,6 @@ public class MenuActivity extends AppCompatActivity
                         }
                     }
                     else{
-
-
                     }
                 }
             });

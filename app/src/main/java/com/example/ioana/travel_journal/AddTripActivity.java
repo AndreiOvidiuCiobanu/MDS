@@ -1,5 +1,4 @@
 package com.example.ioana.travel_journal;
-
 import android.Manifest;
 import android.app.Activity;
 import android.app.DatePickerDialog;
@@ -19,12 +18,10 @@ import android.widget.RadioButton;
 import android.widget.RatingBar;
 import android.widget.SeekBar;
 import android.widget.Toast;
-
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Calendar;
-
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -82,7 +79,6 @@ public class AddTripActivity extends AppCompatActivity {
             imageViewTrip.setImageBitmap(imagine);
             calendarStart = trip.getMStartDate();
             calendarEnd = trip.getMEndDate();
-
         }
 
         buttonStartDate.setOnClickListener(new View.OnClickListener() {
@@ -130,10 +126,7 @@ public class AddTripActivity extends AppCompatActivity {
                 takePicture();
             }
         });
-
-
     }
-
 
     private void takePicture() {
         if (checkSelfPermission(android.Manifest.permission.CAMERA)
@@ -151,7 +144,6 @@ public class AddTripActivity extends AppCompatActivity {
                 cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT,uri);
                 startActivityForResult(cameraIntent, CAMERA_REQUEST);
             }
-
         }
     }
 
@@ -181,7 +173,6 @@ public class AddTripActivity extends AppCompatActivity {
                     cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, uri);
                     startActivityForResult(cameraIntent, CAMERA_REQUEST);
                 }
-
             }
         }
         else if(requestCode == 2020){
@@ -197,7 +188,6 @@ public class AddTripActivity extends AppCompatActivity {
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-
 
         if (requestCode == REQUEST_CODE && resultCode == RESULT_OK && data != null) {
             if (imagine != null) {
@@ -217,18 +207,11 @@ public class AddTripActivity extends AppCompatActivity {
                 e.printStackTrace();
             } catch (IOException e) {
                 e.printStackTrace();
-            } /*finally {
-                try {
-                    inputStream.close();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }*/
-
+            }
         }
         else if (requestCode == CAMERA_REQUEST && resultCode == Activity.RESULT_OK) {
 
-                //imagine = (Bitmap)data.getExtras().get("data");
+            //imagine = (Bitmap)data.getExtras().get("data");
             try {
                 imagine =  MediaStore.Images.Media.getBitmap(this.getContentResolver(),uri);
                 imageViewTrip.setImageBitmap(imagine);
@@ -236,17 +219,11 @@ public class AddTripActivity extends AppCompatActivity {
                 imageViewTrip.setVisibility(View.VISIBLE);
                 trip.setMPicture(uri);
 
-               // Toast.makeText(this,uri.toString(),Toast.LENGTH_LONG).show();
+                // Toast.makeText(this,uri.toString(),Toast.LENGTH_LONG).show();
             } catch (IOException e) {
                 e.printStackTrace();
             }
-
-
-
-
-
         }
-
     }
 
 
@@ -291,7 +268,8 @@ public class AddTripActivity extends AppCompatActivity {
     }
 
     private boolean validType(){
-        return radioButtonSeaSide.isChecked() || radioButtonCityBreak.isChecked() || radioButtonMountains.isChecked();
+        return radioButtonSeaSide.isChecked() || radioButtonCityBreak.isChecked()
+                || radioButtonMountains.isChecked();
     }
 
     private boolean validStartDate(){
@@ -302,7 +280,6 @@ public class AddTripActivity extends AppCompatActivity {
             buttonStartDate.setError("Please specify a start date for the trip");
             return false;
         }
-
     }
 
     private boolean validEndDate(){
@@ -320,7 +297,7 @@ public class AddTripActivity extends AppCompatActivity {
     }
 
     public void saveOnClick(View view) {
-        if(validDestination() && validName() && validType() && validStartDate() && validEndDate() && validPicture()) {
+       // if(validDestination() && validName() && validType() && validStartDate() && validEndDate() && validPicture()) {
             //Bitmap imag = ((BitmapDrawable)imageViewTrip.getDrawable()).getBitmap();
             /*if(imagine != null){
                 ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
@@ -330,13 +307,11 @@ public class AddTripActivity extends AppCompatActivity {
                 String imagineEncoded = Base64.encodeToString(array, Base64.DEFAULT);
                 Toast.makeText(view.getContext(),imagineEncoded,Toast.LENGTH_LONG).show();
                 trip.setmPicture(imagineEncoded);
-
             }*/
             /*CompressBitmap compressBitmap = new CompressBitmap(){
                 @Override
                 protected void onPostExecute(byte[] bytes) {
                     if(bytes != null){
-
                         trip.setmPicture(bytes);
                         if(radioButtonCityBreak.isChecked()){
                             trip.setmTripType(Trip.TripType.CITY_BREAK);
@@ -349,18 +324,15 @@ public class AddTripActivity extends AppCompatActivity {
                         }
                         trip.setmPrice(seekBarPrice.getProgress());
                         trip.setmRating(ratingBar.getRating());
-
                         intent.putExtra("trip",trip);
                         setResult(RESULT_OK,intent);
                         finish();
                         Toast.makeText(getApplicationContext(),"i got here",Toast.LENGTH_LONG).show();
                         return;
-
                     }
                 }
             };
             compressBitmap.execute(imagine);*/
-
 
             if (radioButtonCityBreak.isChecked()) {
                 trip.setMTripType(Trip.TripType.CITY_BREAK);
@@ -378,5 +350,5 @@ public class AddTripActivity extends AppCompatActivity {
             setResult(RESULT_OK, intent);
             finish();
         }
-    }
+   // }
 }

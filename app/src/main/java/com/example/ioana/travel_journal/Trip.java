@@ -48,7 +48,6 @@ public class Trip implements Parcelable {
     public Trip() {
     }
 
-
     protected Trip(Parcel in) {
         mName = in.readString();
         mDestination = in.readString();
@@ -64,7 +63,6 @@ public class Trip implements Parcelable {
         mEndDate = endDate;
         mDocumentId = in.readString();
         mIsFavourite = (in.readByte() == 1);
-
     }
 
     public static final Creator<Trip> CREATOR = new Creator<Trip>() {
@@ -97,7 +95,6 @@ public class Trip implements Parcelable {
         dest.writeString(mDocumentId);
         dest.writeByte((byte)(mIsFavourite == true ? 1 : 0));
     }
-
 
     public Trip(String mName, String mDestination, Uri mPicture, float mRating, TripType mTripType, float mPrice, Calendar mStartDate, Calendar mEndDate) {
         this.mName = mName;
