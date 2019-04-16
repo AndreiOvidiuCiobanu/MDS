@@ -1,36 +1,32 @@
 package com.example.ioana.travel_journal;
 
-import android.Manifest;
-import android.app.Activity;
-import android.app.DatePickerDialog;
-import android.content.ContentValues;
-import android.content.Intent;
-import android.content.pm.PackageManager;
-import android.graphics.Bitmap;
-import android.graphics.drawable.BitmapDrawable;
-import android.net.Uri;
-import android.os.Bundle;
-import android.provider.MediaStore;
-import android.util.Base64;
-import android.view.View;
-import android.widget.Button;
-import android.widget.DatePicker;
-import android.widget.EditText;
-import android.widget.ImageView;
-import android.widget.RadioButton;
-import android.widget.RatingBar;
-import android.widget.SeekBar;
-import android.widget.Toast;
+        import android.Manifest;
+        import android.app.Activity;
+        import android.app.DatePickerDialog;
+        import android.content.ContentValues;
+        import android.content.Intent;
+        import android.content.pm.PackageManager;
+        import android.graphics.Bitmap;
+        import android.net.Uri;
+        import android.os.Bundle;
+        import android.provider.MediaStore;
+        import android.view.View;
+        import android.widget.Button;
+        import android.widget.DatePicker;
+        import android.widget.EditText;
+        import android.widget.ImageView;
+        import android.widget.RadioButton;
+        import android.widget.RatingBar;
+        import android.widget.SeekBar;
+        import android.widget.Toast;
 
-import java.io.ByteArrayOutputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.Calendar;
+        import java.io.FileNotFoundException;
+        import java.io.IOException;
+        import java.io.InputStream;
+        import java.util.Calendar;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.DialogFragment;
+        import androidx.annotation.NonNull;
+        import androidx.appcompat.app.AppCompatActivity;
 
 public class AddTripActivity extends AppCompatActivity {
     private EditText editTextDestination;
@@ -55,6 +51,7 @@ public class AddTripActivity extends AppCompatActivity {
     private Calendar calendarStart = Calendar.getInstance();
     private Calendar calendarEnd = Calendar.getInstance();
     Bundle bundle;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -92,20 +89,15 @@ public class AddTripActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-//                DatePickerDialog dialog = new DatePickerDialog(v.getContext(),
-//                        new DatePickerDialog.OnDateSetListener() {
-//                    @Override
-//                    public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
-//                        Calendar startDate = Calendar.getInstance();
-//                        startDate.set(year,month,dayOfMonth);
-//                    }
-//                },calendarStart.get(Calendar.YEAR),calendarStart.get(Calendar.MONTH),
-//                        calendarStart.get(Calendar.DAY_OF_MONTH));
-//                dialog.show();
-
-                DialogFragment newFragment = new CustomDatePickerFragment();
-                ((CustomDatePickerFragment) newFragment).setButton(buttonStartDate);
-                newFragment.show(getSupportFragmentManager(), "DatePicker");
+                DatePickerDialog dialog = new DatePickerDialog(v.getContext(), new DatePickerDialog.OnDateSetListener() {
+                    @Override
+                    public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
+                        Calendar startDate = Calendar.getInstance();
+                        startDate.set(year,month,dayOfMonth);
+                        trip.setMStartDate(startDate);
+                    }
+                },calendarStart.get(Calendar.YEAR),calendarStart.get(Calendar.MONTH),calendarStart.get(Calendar.DAY_OF_MONTH));
+                dialog.show();
             }
         });
 
@@ -113,21 +105,15 @@ public class AddTripActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-//                DatePickerDialog dialog = new DatePickerDialog(v.getContext(),
-//                        new DatePickerDialog.OnDateSetListener() {
-//                    @Override
-//                    public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
-//                        Calendar endDate = Calendar.getInstance();
-//                        endDate.set(year,month,dayOfMonth);
-//                        trip.setMEndDate(endDate);
-//                    }
-//                },calendarEnd.get(Calendar.YEAR),calendarEnd.get(Calendar.MONTH),
-//                        calendarEnd.get(Calendar.DAY_OF_MONTH));
-//                dialog.show();
-
-                DialogFragment newFragment = new CustomDatePickerFragment();
-                ((CustomDatePickerFragment) newFragment).setButton(buttonEndDate);
-                newFragment.show(getSupportFragmentManager(), "DatePicker");
+                DatePickerDialog dialog = new DatePickerDialog(v.getContext(), new DatePickerDialog.OnDateSetListener() {
+                    @Override
+                    public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
+                        Calendar endDate = Calendar.getInstance();
+                        endDate.set(year,month,dayOfMonth);
+                        trip.setMEndDate(endDate);
+                    }
+                },calendarEnd.get(Calendar.YEAR),calendarEnd.get(Calendar.MONTH),calendarEnd.get(Calendar.DAY_OF_MONTH));
+                dialog.show();
             }
         });
 
@@ -144,6 +130,8 @@ public class AddTripActivity extends AppCompatActivity {
                 takePicture();
             }
         });
+
+
     }
 
 
@@ -163,6 +151,7 @@ public class AddTripActivity extends AppCompatActivity {
                 cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT,uri);
                 startActivityForResult(cameraIntent, CAMERA_REQUEST);
             }
+
         }
     }
 
@@ -179,15 +168,12 @@ public class AddTripActivity extends AppCompatActivity {
     }
 
     @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions,
-                                           @NonNull int[] grantResults) {
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         if (requestCode == MY_CAMERA_PERMISSION_CODE) {
             if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                if (checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE) !=
-                        PackageManager.PERMISSION_GRANTED) {
-                    requestPermissions(new String[]{
-                            android.Manifest.permission.WRITE_EXTERNAL_STORAGE}, 2020);
+                if (checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+                    requestPermissions(new String[]{android.Manifest.permission.WRITE_EXTERNAL_STORAGE}, 2020);
                 } else {
                     uri = getContentResolver().insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
                             new ContentValues());
@@ -195,6 +181,7 @@ public class AddTripActivity extends AppCompatActivity {
                     cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, uri);
                     startActivityForResult(cameraIntent, CAMERA_REQUEST);
                 }
+
             }
         }
         else if(requestCode == 2020){
@@ -210,6 +197,7 @@ public class AddTripActivity extends AppCompatActivity {
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+
 
         if (requestCode == REQUEST_CODE && resultCode == RESULT_OK && data != null) {
             if (imagine != null) {
@@ -229,10 +217,18 @@ public class AddTripActivity extends AppCompatActivity {
                 e.printStackTrace();
             } catch (IOException e) {
                 e.printStackTrace();
-            }
+            } /*finally {
+                try {
+                    inputStream.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }*/
+
         }
         else if (requestCode == CAMERA_REQUEST && resultCode == Activity.RESULT_OK) {
-                //imagine = (Bitmap)data.getExtras().get("data");
+
+            //imagine = (Bitmap)data.getExtras().get("data");
             try {
                 imagine =  MediaStore.Images.Media.getBitmap(this.getContentResolver(),uri);
                 imageViewTrip.setImageBitmap(imagine);
@@ -240,12 +236,13 @@ public class AddTripActivity extends AppCompatActivity {
                 imageViewTrip.setVisibility(View.VISIBLE);
                 trip.setMPicture(uri);
 
-               // Toast.makeText(this,uri.toString(),Toast.LENGTH_LONG).show();
+                // Toast.makeText(this,uri.toString(),Toast.LENGTH_LONG).show();
             } catch (IOException e) {
                 e.printStackTrace();
             }
         }
     }
+
 
     private void initView(){
         editTextDestination = findViewById(R.id.destinationET);
@@ -260,6 +257,7 @@ public class AddTripActivity extends AppCompatActivity {
         buttonTakePhoto = findViewById(R.id.button_take_picture);
         buttonSelectPhoto = findViewById(R.id.button_select_picture);
         imageViewTrip = findViewById(R.id.imageview_trip_picture);
+
     }
 
     private boolean validDestination(){
@@ -287,8 +285,7 @@ public class AddTripActivity extends AppCompatActivity {
     }
 
     private boolean validType(){
-        return radioButtonSeaSide.isChecked() || radioButtonCityBreak.isChecked() ||
-                radioButtonMountains.isChecked();
+        return radioButtonSeaSide.isChecked() || radioButtonCityBreak.isChecked() || radioButtonMountains.isChecked();
     }
 
     private boolean validStartDate(){
@@ -316,24 +313,21 @@ public class AddTripActivity extends AppCompatActivity {
     }
 
     public void saveOnClick(View view) {
-        if(validDestination() && validName() && validType()&& validStartDate() &&
-                validEndDate() && validPicture()) {
-//            Bitmap imag = ((BitmapDrawable)imageViewTrip.getDrawable()).getBitmap();
-//            if(imagine != null){
-//                ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-//                imagine.compress(Bitmap.CompressFormat.PNG,100,outputStream);
-//                imagine.recycle();
-//                byte[] array = outputStream.toByteArray();
-//                String imagineEncoded = Base64.encodeToString(array, Base64.DEFAULT);
-//                Toast.makeText(view.getContext(),imagineEncoded,Toast.LENGTH_LONG).show();
-//                trip.setmPicture(imagineEncoded);
-//
-//            }
+        if(validDestination() && validName() && validType() && validStartDate() && validEndDate() && validPicture()) {
+            //Bitmap imag = ((BitmapDrawable)imageViewTrip.getDrawable()).getBitmap();
+            /*if(imagine != null){
+                ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+                imagine.compress(Bitmap.CompressFormat.PNG,100,outputStream);
+                imagine.recycle();
+                byte[] array = outputStream.toByteArray();
+                String imagineEncoded = Base64.encodeToString(array, Base64.DEFAULT);
+                Toast.makeText(view.getContext(),imagineEncoded,Toast.LENGTH_LONG).show();
+                trip.setmPicture(imagineEncoded);
+            }*/
             /*CompressBitmap compressBitmap = new CompressBitmap(){
                 @Override
                 protected void onPostExecute(byte[] bytes) {
                     if(bytes != null){
-
                         trip.setmPicture(bytes);
                         if(radioButtonCityBreak.isChecked()){
                             trip.setmTripType(Trip.TripType.CITY_BREAK);
@@ -346,7 +340,6 @@ public class AddTripActivity extends AppCompatActivity {
                         }
                         trip.setmPrice(seekBarPrice.getProgress());
                         trip.setmRating(ratingBar.getRating());
-
                         intent.putExtra("trip",trip);
                         setResult(RESULT_OK,intent);
                         finish();
