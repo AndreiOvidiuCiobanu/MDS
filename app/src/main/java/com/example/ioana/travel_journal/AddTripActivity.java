@@ -1,32 +1,29 @@
 package com.example.ioana.travel_journal;
-
-        import android.Manifest;
-        import android.app.Activity;
-        import android.app.DatePickerDialog;
-        import android.content.ContentValues;
-        import android.content.Intent;
-        import android.content.pm.PackageManager;
-        import android.graphics.Bitmap;
-        import android.net.Uri;
-        import android.os.Bundle;
-        import android.provider.MediaStore;
-        import android.view.View;
-        import android.widget.Button;
-        import android.widget.DatePicker;
-        import android.widget.EditText;
-        import android.widget.ImageView;
-        import android.widget.RadioButton;
-        import android.widget.RatingBar;
-        import android.widget.SeekBar;
-        import android.widget.Toast;
-
-        import java.io.FileNotFoundException;
-        import java.io.IOException;
-        import java.io.InputStream;
-        import java.util.Calendar;
-
-        import androidx.annotation.NonNull;
-        import androidx.appcompat.app.AppCompatActivity;
+import android.Manifest;
+import android.app.Activity;
+import android.app.DatePickerDialog;
+import android.content.ContentValues;
+import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
+import android.net.Uri;
+import android.os.Bundle;
+import android.provider.MediaStore;
+import android.view.View;
+import android.widget.Button;
+import android.widget.DatePicker;
+import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.RadioButton;
+import android.widget.RatingBar;
+import android.widget.SeekBar;
+import android.widget.Toast;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.Calendar;
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
 
 public class AddTripActivity extends AppCompatActivity {
     private EditText editTextDestination;
@@ -82,7 +79,6 @@ public class AddTripActivity extends AppCompatActivity {
             imageViewTrip.setImageBitmap(imagine);
             calendarStart = trip.getMStartDate();
             calendarEnd = trip.getMEndDate();
-
         }
 
         buttonStartDate.setOnClickListener(new View.OnClickListener() {
@@ -130,10 +126,7 @@ public class AddTripActivity extends AppCompatActivity {
                 takePicture();
             }
         });
-
-
     }
-
 
     private void takePicture() {
         if (checkSelfPermission(android.Manifest.permission.CAMERA)
@@ -151,7 +144,6 @@ public class AddTripActivity extends AppCompatActivity {
                 cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT,uri);
                 startActivityForResult(cameraIntent, CAMERA_REQUEST);
             }
-
         }
     }
 
@@ -181,7 +173,6 @@ public class AddTripActivity extends AppCompatActivity {
                     cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, uri);
                     startActivityForResult(cameraIntent, CAMERA_REQUEST);
                 }
-
             }
         }
         else if(requestCode == 2020){
@@ -197,7 +188,6 @@ public class AddTripActivity extends AppCompatActivity {
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-
 
         if (requestCode == REQUEST_CODE && resultCode == RESULT_OK && data != null) {
             if (imagine != null) {
@@ -217,14 +207,7 @@ public class AddTripActivity extends AppCompatActivity {
                 e.printStackTrace();
             } catch (IOException e) {
                 e.printStackTrace();
-            } /*finally {
-                try {
-                    inputStream.close();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }*/
-
+            }
         }
         else if (requestCode == CAMERA_REQUEST && resultCode == Activity.RESULT_OK) {
 
@@ -285,7 +268,8 @@ public class AddTripActivity extends AppCompatActivity {
     }
 
     private boolean validType(){
-        return radioButtonSeaSide.isChecked() || radioButtonCityBreak.isChecked() || radioButtonMountains.isChecked();
+        return radioButtonSeaSide.isChecked() || radioButtonCityBreak.isChecked()
+                || radioButtonMountains.isChecked();
     }
 
     private boolean validStartDate(){
@@ -313,7 +297,7 @@ public class AddTripActivity extends AppCompatActivity {
     }
 
     public void saveOnClick(View view) {
-        if(validDestination() && validName() && validType() && validStartDate() && validEndDate() && validPicture()) {
+       // if(validDestination() && validName() && validType() && validStartDate() && validEndDate() && validPicture()) {
             //Bitmap imag = ((BitmapDrawable)imageViewTrip.getDrawable()).getBitmap();
             /*if(imagine != null){
                 ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
@@ -350,7 +334,6 @@ public class AddTripActivity extends AppCompatActivity {
             };
             compressBitmap.execute(imagine);*/
 
-
             if (radioButtonCityBreak.isChecked()) {
                 trip.setMTripType(Trip.TripType.CITY_BREAK);
             }
@@ -367,5 +350,5 @@ public class AddTripActivity extends AppCompatActivity {
             setResult(RESULT_OK, intent);
             finish();
         }
-    }
+   // }
 }
