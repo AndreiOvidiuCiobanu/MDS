@@ -121,12 +121,8 @@ public class HomeFragment extends Fragment {
                 startDate.setTimeInMillis((long)trip.get("endDate"));
                 newTrip.setMEndDate(endDate);
                 newTrip.setMDocumentId((String)trip.get("documentId"));
-
-
                 return newTrip;
             }
-
-
 
             @Override
             public void onClick(View view, final int position) {
@@ -151,7 +147,6 @@ public class HomeFragment extends Fragment {
                                     Log.i("ListOfTrips",listOfTrips.toString());
                                 }
                             });
-
                         }
                         else{
                             ref.update("isFavourite",false);
@@ -178,16 +173,11 @@ public class HomeFragment extends Fragment {
                     transaction.replace(R.id.fragment_container,fragment);
                     transaction.addToBackStack(null);
                     transaction.commit();
-
                 }
                 else{
                     check = false;
                     return;
                 }
-
-
-
-
             }
 
             @Override
@@ -198,7 +188,6 @@ public class HomeFragment extends Fragment {
                 intent.putExtra("trip",newTrip);
                 getActivity().startActivityForResult(intent,REQUEST_CODE);
                 //Toast.makeText(getActivity().getApplicationContext(),position + " " + newTrip,Toast.LENGTH_LONG).show();
-
             }
         }));
 
@@ -233,7 +222,6 @@ public class HomeFragment extends Fragment {
         trips.add(new Trip("Winter 2018","Dubai","http://oferte-vacante-interturism.ro/wp-content/uploads/2014/05/Oferta-Speciala-Dubai.jpg",4.5f));
         return trips;
     }*/
-
 
     public void setmDocumentID(String documentID) {
         this.mDocumentID = documentID;

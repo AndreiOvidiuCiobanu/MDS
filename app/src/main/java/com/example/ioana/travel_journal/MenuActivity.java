@@ -103,7 +103,6 @@ public class MenuActivity extends AppCompatActivity
                 }
             });
         }
-
     }
 
     @Override
@@ -141,7 +140,6 @@ public class MenuActivity extends AppCompatActivity
                     transaction.replace(R.id.fragment_container,fragment);
                     transaction.commit();
                 }
-
             }
         }
         else if(requestCode == 5123 && resultCode == Activity.RESULT_OK){
@@ -172,8 +170,6 @@ public class MenuActivity extends AppCompatActivity
 
     private void initFirestore(){
         mFirestore = FirebaseFirestore.getInstance();
-
-
     }
 
     @Override
@@ -221,7 +217,6 @@ public class MenuActivity extends AppCompatActivity
                     != PackageManager.PERMISSION_GRANTED) {
                 requestPermissions(new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},
                         8080);
-
             }
             else{
                 HomeFragment fragment = new HomeFragment();
@@ -235,7 +230,6 @@ public class MenuActivity extends AppCompatActivity
                     != PackageManager.PERMISSION_GRANTED) {
                 requestPermissions(new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},
                         8080);
-
             }
             else{
                 FavouriteFragment fragment = new FavouriteFragment();
@@ -275,7 +269,6 @@ public class MenuActivity extends AppCompatActivity
             } else {
                 //Toast.makeText(this, "camera permission denied", Toast.LENGTH_LONG).show();
             }
-
         }
     }
 }
