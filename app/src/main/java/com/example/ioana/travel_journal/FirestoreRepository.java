@@ -1,6 +1,7 @@
 package com.example.ioana.travel_journal;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Picture;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -57,6 +58,7 @@ public class FirestoreRepository {
                     public void onSuccess(DocumentReference documentReference) {
                         displayMessage(
                                 "DocumentSnapshot added with ID: " + documentReference.getId());
+                        readTrips();
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {

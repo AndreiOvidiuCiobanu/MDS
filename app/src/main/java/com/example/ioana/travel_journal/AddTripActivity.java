@@ -10,6 +10,7 @@ import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
@@ -360,6 +361,6 @@ public class AddTripActivity extends AppCompatActivity {
 //        startActivity(mIntent);
 //        setResult(RESULT_OK, intent);
 //        finish();
-
+        
     }
 }
