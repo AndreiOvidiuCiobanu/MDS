@@ -27,5 +27,4 @@
             android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".AddTripActivity"></activity>
     </application>
-
 </manifest>

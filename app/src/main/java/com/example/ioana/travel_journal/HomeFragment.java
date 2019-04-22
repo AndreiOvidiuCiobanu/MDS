@@ -44,9 +44,7 @@ public class HomeFragment extends Fragment {
     private static final int REQUEST_CODE = 5123;
     TripAdapter adapter;
     FirebaseFirestore db = FirebaseFirestore.getInstance();
-    AppDatabase appDatabase;
     private boolean check = false;
-
 
     public HomeFragment() {
         // Required empty public constructor
@@ -59,7 +57,6 @@ public class HomeFragment extends Fragment {
         // Inflate the layout for this fragment
         mData= new ArrayList<>();
         View view =  inflater.inflate(R.layout.fragment_home, container, false);
-        appDatabase = AppDatabase.getAppDatabase(getActivity().getApplicationContext());
         mRecyclerView = view.findViewById(R.id.recyclerview_trips);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this.getActivity()); //ca parametru primeste contextul activitatii
         mRecyclerView.setLayoutManager(layoutManager);
@@ -135,32 +132,33 @@ public class HomeFragment extends Fragment {
                         DocumentSnapshot trip = ((TripAdapter)mRecyclerView.getAdapter()).getItemAtPosition(position);
                         final DocumentReference ref = db.collection("users").document(mDocumentID).collection("trips").document(trip.getId());
                         final Trip favourite = getTrip(trip);
-                        if(checkBoxFavourite.isChecked() == true){
-
-                            ref.update("isFavourite",true);
-                            AsyncTask.execute(new Runnable() {
-                                @Override
-                                public void run() {
-                                    // Insert Data
-                                    appDatabase.tripDao().insertTrip(favourite);
-                                    List<Trip> listOfTrips = appDatabase.tripDao().getAllTrips();
-                                    Log.i("ListOfTrips",listOfTrips.toString());
-                                }
-                            });
-                        }
-                        else{
-                            ref.update("isFavourite",false);
-                            AsyncTask.execute(new Runnable() {
-                                @Override
-                                public void run() {
-                                    // Delete Data
-                                    appDatabase.tripDao().deleteTrip(favourite);
-                                    List<Trip> listOfTrips = appDatabase.tripDao().getAllTrips();
-                                    Log.i("ListOfTrips",listOfTrips.toString());
-                                }
-                            });
-                        }
-                        return;
+//                      TO-DO: FIX FAVORITE BUTTON
+//                        if(checkBoxFavourite.isChecked() == true){
+//
+//                            ref.update("isFavourite",true);
+//                            AsyncTask.execute(new Runnable() {
+//                                @Override
+//                                public void run() {
+//                                    // Insert Data
+//                                    appDatabase.tripDao().insertTrip(favourite);
+//                                    List<Trip> listOfTrips = appDatabase.tripDao().getAllTrips();
+//                                    Log.i("ListOfTrips",listOfTrips.toString());
+//                                }
+//                            });
+//                        }
+//                        else{
+//                            ref.update("isFavourite",false);
+//                            AsyncTask.execute(new Runnable() {
+//                                @Override
+//                                public void run() {
+//                                    // Delete Data
+//                                    appDatabase.tripDao().deleteTrip(favourite);
+//                                    List<Trip> listOfTrips = appDatabase.tripDao().getAllTrips();
+//                                    Log.i("ListOfTrips",listOfTrips.toString());
+//                                }
+//                            });
+//                        }
+//                        return;
                     }
 
                 });
