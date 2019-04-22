@@ -27,7 +27,7 @@ import java.util.List;
  */
 public class FavouriteFragment extends Fragment {
     private RecyclerView mRecyclerView;
-    private List<DocumentSnapshot> mData = new ArrayList<>();
+    private List<Trip> mData = new ArrayList<>();
     private String mDocumentID;
     TripAdapter adapter;
     FirebaseFirestore db = FirebaseFirestore.getInstance();
@@ -52,7 +52,7 @@ public class FavouriteFragment extends Fragment {
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
                 if (task.isSuccessful()){
                     for(QueryDocumentSnapshot trip : task.getResult()){
-                        mData.add(trip);
+                       // mData.add(trip);
                     }
                     adapter = new TripAdapter(mData,true);
 

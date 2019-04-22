@@ -48,6 +48,7 @@ public class Trip implements Parcelable {
     public Trip() {
     }
 
+    @Ignore
     protected Trip(Parcel in) {
         mName = in.readString();
         mDestination = in.readString();
@@ -96,7 +97,9 @@ public class Trip implements Parcelable {
         dest.writeByte((byte)(mIsFavourite == true ? 1 : 0));
     }
 
-    public Trip(String mName, String mDestination, Uri mPicture, float mRating, TripType mTripType, float mPrice, Calendar mStartDate, Calendar mEndDate) {
+    @Ignore
+    public Trip(String mName, String mDestination, Uri mPicture, float mRating, TripType mTripType,
+                float mPrice, Calendar mStartDate, Calendar mEndDate) {
         this.mName = mName;
         this.mDestination = mDestination;
         this.mPicture = mPicture;

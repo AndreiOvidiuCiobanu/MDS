@@ -19,9 +19,9 @@ public class TripViewHolder extends RecyclerView.ViewHolder {
     public TripViewHolder(@NonNull View itemView) {
         super(itemView);
         mImageViewPicture = itemView.findViewById(R.id.imageview_picture);
-        mTextViewName = itemView.findViewById(R.id.textview_type);
-        mTextViewDestination = itemView.findViewById(R.id.textview_type);
-        mTextViewRating = itemView.findViewById(R.id.textview_rating);
+        mTextViewName = itemView.findViewById(R.id.text_view_name);
+        mTextViewDestination = itemView.findViewById(R.id.text_view_destination);
+        mTextViewRating = itemView.findViewById(R.id.text_view_rating);
         mCheckBoxFavourite = itemView.findViewById(R.id.checkbox_bookmark);
     }
 }

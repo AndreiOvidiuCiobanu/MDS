@@ -15,13 +15,15 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import androidx.annotation.NonNull;
 
 public class FirestoreRepository {
-    private static final String TRIPS_COLLECTION = "Trips";
+    public static final String TRIPS_COLLECTION = "Trips";
     private static final String DESTINATION = "destination";
     private static final String ID = "id";
     private static final String ENDDATE = "endDate";
@@ -30,9 +32,9 @@ public class FirestoreRepository {
     private static final String STARTDATE = "startDate";
     private static final String TRIPTYPE = "tripType";
     private static final String PICTURE = "picture";
+    private static final String NAME = "name";
     private FirebaseFirestore mFirebaseFirestore;
     private Context mContext;
-    private TextView mTextViewTasks;
 
     public FirestoreRepository(Context context) {
         mFirebaseFirestore = FirebaseFirestore.getInstance();
@@ -49,6 +51,7 @@ public class FirestoreRepository {
         theItem.put(RATING,item.getMRating());
         theItem.put(STARTDATE,item.getMStartDate());
         theItem.put(TRIPTYPE,item.getMTripType());
+        theItem.put(NAME, item.getMName());
         //..... put pt toate valorile
 
         mFirebaseFirestore.collection(TRIPS_COLLECTION)
@@ -58,7 +61,6 @@ public class FirestoreRepository {
                     public void onSuccess(DocumentReference documentReference) {
                         displayMessage(
                                 "DocumentSnapshot added with ID: " + documentReference.getId());
-                        readTrips();
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {
@@ -73,7 +75,8 @@ public class FirestoreRepository {
         Toast.makeText(mContext, s, Toast.LENGTH_SHORT).show();
     }
 
-    private void getTrips() {
+    public List<Trip> getTrips() {
+        final List<Trip> trips = new ArrayList<>();
         mFirebaseFirestore.collection(TRIPS_COLLECTION)
                 .get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
@@ -81,31 +84,19 @@ public class FirestoreRepository {
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
                         if (task.isSuccessful()) {
                             for (QueryDocumentSnapshot document : task.getResult()) {
-                                // document.getId() + " => " + document.getData() + "\n");
-                            }
-                        } else {
-                            displayMessage("Error getting documents.");
-                        }
-                    }
-                });
-    }
+                                Trip trip = new Trip();
+                                trip.setMDestination(document.getData().get("destination")
+                                        .toString());
+                              //  trip.setMName(document.getData().get("name").toString());
+                                //trip.setMPrice(document.getData().get("price"));
 
-    private void readTrips() {
-        mFirebaseFirestore.collection(TRIPS_COLLECTION)
-                .get()
-                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                        mTextViewTasks.setText("");
-                        if (task.isSuccessful()) {
-                            for (QueryDocumentSnapshot document : task.getResult()) {
-                                mTextViewTasks
-                                        .append(document.getId() + " => " + document.getData() + "\n");
+                                trips.add(trip);
                             }
                         } else {
                             displayMessage("Error getting documents.");
                         }
                     }
                 });
+        return trips;
     }
 }

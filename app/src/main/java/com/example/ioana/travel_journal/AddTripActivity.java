@@ -25,6 +25,8 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Calendar;
+import java.util.HashMap;
+import java.util.Map;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -52,7 +54,6 @@ public class AddTripActivity extends AppCompatActivity {
     private Calendar calendarStart = Calendar.getInstance();
     private Calendar calendarEnd = Calendar.getInstance();
     Bundle bundle;
-
     private FirestoreRepository mFirestoreRepository;
 
 
@@ -87,7 +88,8 @@ public class AddTripActivity extends AppCompatActivity {
             seekBarPrice.setProgress((int) trip.getMPrice());
             imageViewTrip.setVisibility(View.VISIBLE);
             try {
-                imagine = MediaStore.Images.Media.getBitmap(this.getContentResolver(), trip.getMPicture());
+                imagine = MediaStore.Images.Media.getBitmap(this.getContentResolver(),
+                        trip.getMPicture());
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -177,12 +179,16 @@ public class AddTripActivity extends AppCompatActivity {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         if (requestCode == MY_CAMERA_PERMISSION_CODE) {
             if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                if (checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
-                    requestPermissions(new String[]{android.Manifest.permission.WRITE_EXTERNAL_STORAGE}, 2020);
+                if (checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE) !=
+                        PackageManager.PERMISSION_GRANTED) {
+                    requestPermissions(new String[]{android.Manifest.permission.
+                            WRITE_EXTERNAL_STORAGE}, 2020);
                 } else {
-                    uri = getContentResolver().insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
+                    uri = getContentResolver().insert(MediaStore.Images.Media.
+                                    EXTERNAL_CONTENT_URI,
                             new ContentValues());
-                    Intent cameraIntent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
+                    Intent cameraIntent = new Intent(android.provider.MediaStore.
+                            ACTION_IMAGE_CAPTURE);
                     cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, uri);
                     startActivityForResult(cameraIntent, CAMERA_REQUEST);
                 }
@@ -353,14 +359,13 @@ public class AddTripActivity extends AppCompatActivity {
         trip.setMPrice(seekBarPrice.getProgress());
         trip.setMRating(ratingBar.getRating());
         trip.setmIsFavourite(false);
+        trip.setMDestination(editTextDestination.getText().toString());
+       // trip.setMName(editTextName.getText().toString());
+        //trip.setMPicture(UriConverter.touri(imageViewTrip.));
         mFirestoreRepository.addTrip(trip);
-       // intent.putExtra("trip", trip);
 
-//        Intent mIntent = new Intent(AddTripActivity.this, MenuActivity.class);
-//        mIntent.putExtra("trip", trip);
-//        startActivity(mIntent);
-//        setResult(RESULT_OK, intent);
-//        finish();
-        
+        Intent intent = new Intent(getApplicationContext(),MenuActivity.class);
+        startActivity(intent);
+        finish();
     }
 }
