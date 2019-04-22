@@ -62,8 +62,8 @@ public class TripDetailFragment extends Fragment {
     }
 
     private void initView(View view){
-        mTextViewName = view.findViewById(R.id.textview_name);
-        mTextViewDestination = view.findViewById(R.id.textview_destination);
+        mTextViewName = view.findViewById(R.id.text_view_name);
+        mTextViewDestination = view.findViewById(R.id.text_view_destination);
         mTextViewPrice = view.findViewById(R.id.textview_price);
         mRatingBar = view.findViewById(R.id.ratingbar_detail);
         mTextViewType = view.findViewById(R.id.textview_type);
@@ -76,5 +76,4 @@ public class TripDetailFragment extends Fragment {
     public void setTrip(Trip trip){
         mTrip = trip;
     }
-
 }

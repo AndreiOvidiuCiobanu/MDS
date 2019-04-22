@@ -17,11 +17,11 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 public class TripAdapter extends RecyclerView.Adapter<TripViewHolder> {
-    private List<DocumentSnapshot> mList;
-    private Context context;
+    private List<Trip> mList;
     private boolean mIsFavourite;
+    Context context;
 
-    public TripAdapter(List<DocumentSnapshot> lista,boolean isFavourite){
+    public TripAdapter(List<Trip> lista, boolean isFavourite) {
         mList = lista;
         mIsFavourite = isFavourite;
     }
@@ -30,35 +30,51 @@ public class TripAdapter extends RecyclerView.Adapter<TripViewHolder> {
     @Override
     public TripViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
         //creem item-ul respectiv
-        View tripView = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.trip_item,null);
-        context = viewGroup.getContext();
+        View tripView = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.trip_item, viewGroup, false);
         //returnam un viewHolder
+
+        context = viewGroup.getContext();
         return new TripViewHolder(tripView);
     }
 
     @Override
     public void onBindViewHolder(@NonNull TripViewHolder tripViewHolder, int i) {
-        DocumentSnapshot trip = mList.get(i);
-        tripViewHolder.mTextViewName.setText(trip.get("name").toString());
-        tripViewHolder.mTextViewDestination.setText(trip.get("destination").toString());
+        Trip trip = mList.get(i);
+
+        tripViewHolder.mTextViewDestination.setText(trip.getMDestination());
+        tripViewHolder.mTextViewName.setText(trip.getMName());
+        tripViewHolder.mTextViewRating.setText(trip.getMRating()+ "/5.0");
+
+//        Bitmap tripImage = null;
+//
+//        try {
+//            tripImage = MediaStore.Images.Media.getBitmap(context.getContentResolver(),Uri.parse(trip.getMPicture().toString()));
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
+//        tripViewHolder.mImageViewPicture.setImageBitmap(tripImage);
+
+
         /*byte[] decodedBytes = Base64.decode(trip.getmPicture(), 0);
         Bitmap tripImage = BitmapFactory.decodeByteArray(decodedBytes, 0, decodedBytes.length);*/
+
+       /* tripViewHolder.mTextViewName.setText(trip.getMName());
         Bitmap tripImage = null;
 
         try {
-            tripImage = MediaStore.Images.Media.getBitmap(context.getContentResolver(),Uri.parse(trip.get("picture").toString()));
+            tripImage = MediaStore.Images.Media.getBitmap(context.getContentResolver(),
+            Uri.parse(trip.getMPicture().toString()));
         } catch (IOException e) {
             e.printStackTrace();
         }
         tripViewHolder.mImageViewPicture.setImageBitmap(tripImage);
-        tripViewHolder.mTextViewRating.setText(trip.get("rating") + "/5.0");
-        if(mIsFavourite){
+        tripViewHolder.mTextViewRating.setText(trip.getMRating() + "/5.0");
+        if (mIsFavourite) {
             tripViewHolder.mCheckBoxFavourite.setVisibility(View.INVISIBLE);
-        }
-        else{
+        } else {
 
-            tripViewHolder.mCheckBoxFavourite.setChecked((boolean)trip.get("isFavourite"));
-        }
+            tripViewHolder.mCheckBoxFavourite.setChecked(trip.ismIsFavourite());
+        }*/
     }
 
     @Override
@@ -66,7 +82,7 @@ public class TripAdapter extends RecyclerView.Adapter<TripViewHolder> {
         return mList.size();
     }
 
-    public DocumentSnapshot getItemAtPosition(int position){
+    public Trip getItemAtPosition(int position) {
         return this.mList.get(position);
     }
 }
