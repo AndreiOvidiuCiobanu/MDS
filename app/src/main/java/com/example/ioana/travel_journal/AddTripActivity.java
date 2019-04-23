@@ -30,6 +30,7 @@ import java.util.Map;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.DialogFragment;
 
 public class AddTripActivity extends AppCompatActivity {
     private EditText editTextDestination;
@@ -67,6 +68,8 @@ public class AddTripActivity extends AppCompatActivity {
 
         initView();
         intent = getIntent();
+
+        /// this is done when i press long on a trip from home to see its details
         bundle = intent.getExtras();
         if (bundle != null) {
 
@@ -108,6 +111,7 @@ public class AddTripActivity extends AppCompatActivity {
                         Calendar startDate = Calendar.getInstance();
                         startDate.set(year, month, dayOfMonth);
                         trip.setMStartDate(startDate);
+                        buttonStartDate.setText(dayOfMonth + "/" + (month + 1) + "/" + year);
                     }
                 }, calendarStart.get(Calendar.YEAR), calendarStart.get(Calendar.MONTH), calendarStart.get(Calendar.DAY_OF_MONTH));
                 dialog.show();
@@ -124,6 +128,7 @@ public class AddTripActivity extends AppCompatActivity {
                         Calendar endDate = Calendar.getInstance();
                         endDate.set(year, month, dayOfMonth);
                         trip.setMEndDate(endDate);
+                        buttonEndDate.setText(dayOfMonth + "/" + (month + 1) + "/" + year);
                     }
                 }, calendarEnd.get(Calendar.YEAR), calendarEnd.get(Calendar.MONTH), calendarEnd.get(Calendar.DAY_OF_MONTH));
                 dialog.show();
@@ -360,8 +365,11 @@ public class AddTripActivity extends AppCompatActivity {
         trip.setMRating(ratingBar.getRating());
         trip.setmIsFavourite(false);
         trip.setMDestination(editTextDestination.getText().toString());
-       // trip.setMName(editTextName.getText().toString());
-        //trip.setMPicture(UriConverter.touri(imageViewTrip.));
+        trip.setMName(editTextName.getText().toString());
+
+        //TODO problema preluare imagine
+       // trip.setMPicture(UriConverter.touri(imageViewTrip.get)));
+
         mFirestoreRepository.addTrip(trip);
 
         Intent intent = new Intent(getApplicationContext(),MenuActivity.class);

@@ -33,6 +33,7 @@ public class FirestoreRepository {
     private static final String TRIPTYPE = "tripType";
     private static final String PICTURE = "picture";
     private static final String NAME = "name";
+   // private static final String ISFAVORITE = "isFavorite";  //TODO GET ITS VALUE
     private FirebaseFirestore mFirebaseFirestore;
     private Context mContext;
 
@@ -53,6 +54,10 @@ public class FirestoreRepository {
         theItem.put(TRIPTYPE,item.getMTripType());
         theItem.put(NAME, item.getMName());
         //..... put pt toate valorile
+
+        //TODO put isFavorite
+       // theItem.put(ISFAVORITE,item.getmIsFavourite());
+
 
         mFirebaseFirestore.collection(TRIPS_COLLECTION)
                 .add(theItem)
@@ -87,7 +92,7 @@ public class FirestoreRepository {
                                 Trip trip = new Trip();
                                 trip.setMDestination(document.getData().get("destination")
                                         .toString());
-                              //  trip.setMName(document.getData().get("name").toString());
+                               // trip.setMName(document.getData().get("name").toString());
                                 //trip.setMPrice(document.getData().get("price"));
 
                                 trips.add(trip);

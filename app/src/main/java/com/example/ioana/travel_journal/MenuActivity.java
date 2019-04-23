@@ -3,14 +3,24 @@ package com.example.ioana.travel_journal;
 import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageView;
+import android.widget.TextView;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
+import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
+import com.squareup.picasso.Picasso;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -21,6 +31,9 @@ import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class MenuActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -58,11 +71,59 @@ public class MenuActivity extends AppCompatActivity
                     8080);
 
         }
+
+        //TODO import user data in NAvigation Drawer
+        NavigationView navigationView = findViewById(R.id.nav_view);
+        navigationView.setNavigationItemSelectedListener(this);
+
+        View headerView = navigationView.getHeaderView(0);
+        Bundle bundle = getIntent().getExtras();
+        if(bundle != null){
+            String email = bundle.getString("email");
+            String nume = bundle.getString("nume");
+            Uri imageUri = (Uri)bundle.get("imageUri");
+            TextView textViewName = headerView.findViewById(R.id.textview_type);
+            TextView textViewEmail = headerView.findViewById(R.id.textview_email);
+            ImageView imageViewUser = headerView.findViewById(R.id.imageview_user);
+            Picasso.get().load(imageUri).into(imageViewUser);
+            textViewName.setText(nume);
+            textViewEmail.setText(email);
+            final Map<String,Object> user = new HashMap<>();
+            user.put("email",email);
+            user.put("nume",nume);
+            user.put("uriImagine",imageUri.toString());
+
+            //TODO get user id to reach its own TRIP LIST  !!
+
+//            final CollectionReference users = mFirestore.collection("users");
+//            users.whereEqualTo("email",email).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+//                @Override
+//                public void onComplete(@NonNull Task<QuerySnapshot> task) {
+//                    if(task.isSuccessful()){
+//                        if(task.getResult().size() > 0){
+//                            for(QueryDocumentSnapshot snapshot : task.getResult()){
+//                                mDocumentId = snapshot.getId();
+//                            }
+//                        }
+//                        else{
+//                            DocumentReference ref = users.document();
+//                            ref.set(user);
+//                            mDocumentId = ref.getId();
+//                        }
+//                    }
+//                    else{
+//
+//
+//                    }
+//                }
+//            });
+        }
+
+
+
         // display home fragment
         createFragment();
 
-        NavigationView navigationView = findViewById(R.id.nav_view);
-        navigationView.setNavigationItemSelectedListener(this);
 
     }
 
