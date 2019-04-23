@@ -4,25 +4,24 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/gradient"
     android:orientation="vertical"
     android:padding="24dp"
-    android:background="@drawable/picture"
     tools:context=".Login">
 
     <Button
         android:id="@+id/button_signin"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="64dp"
-        android:text="@string/sign_in_with_google"
-        android:drawableLeft="@drawable/google"
-        android:textStyle="bold"
-        android:textSize="24sp"
+        android:layout_marginTop="200dp"
+        android:background="@drawable/round"
+        android:drawableStart="@drawable/google"
         android:padding="8dp"
-        android:background="@drawable/round">
+        android:text="@string/sign_in_with_google"
+        android:textSize="24sp"
+        android:textStyle="bold">
 
     </Button>
-
 
 
 </LinearLayout>

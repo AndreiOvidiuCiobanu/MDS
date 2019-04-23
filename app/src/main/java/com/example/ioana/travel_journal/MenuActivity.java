@@ -8,8 +8,11 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
+import com.google.android.gms.auth.api.Auth;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import androidx.annotation.NonNull;
@@ -26,6 +29,8 @@ public class MenuActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
     private static final int REQUEST_CODE = 200;
     private FirebaseFirestore mFirestore;
+    private FirebaseAuth mFirebaseAuth;
+    private FirebaseUser mFirebaseUser;
     private String mDocumentId;
 
     @Override
@@ -33,6 +38,8 @@ public class MenuActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_menu);
         initFirestore();
+        mFirebaseAuth = FirebaseAuth.getInstance();
+        mFirebaseUser = mFirebaseAuth.getCurrentUser();
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         FloatingActionButton fab = findViewById(R.id.fab);
@@ -59,7 +66,7 @@ public class MenuActivity extends AppCompatActivity
 
         }
         // display home fragment
-        createFragment();
+        // createFragment();
 
         NavigationView navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
@@ -145,6 +152,14 @@ public class MenuActivity extends AppCompatActivity
 
         } else if (id == R.id.nav_send) {
 
+        } else if (id == R.id.log_out) {
+            mFirebaseAuth.signOut();
+//            Auth.GoogleSignInApi.signOut(mGoogleApiClient);
+            mFirebaseUser = null;
+//            mUsername = ANONYMOUS;
+//            mPhotoUrl = null;
+            startActivity(new Intent(this, Login.class));
+            finish();
         }
 
         DrawerLayout drawer = findViewById(R.id.drawer_layout);

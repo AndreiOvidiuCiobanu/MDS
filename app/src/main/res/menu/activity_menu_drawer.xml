@@ -35,7 +35,7 @@
                 android:title="@string/save" />
             <item
                 android:id="@+id/log_out"
-                android:icon="@drawable/button"
+                android:icon="@drawable/ic_baseline_exit_to_app_24px"
                 android:title="@string/log_out" />
         </menu>
     </item>
