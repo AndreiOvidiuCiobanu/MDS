@@ -36,12 +36,11 @@ dependencies {
     implementation 'androidx.cardview:cardview:1.0.0'
     implementation 'com.crashlytics.sdk.android:crashlytics:2.9.9'
     implementation "androidx.room:room-runtime:$room_version"
+    implementation 'com.google.android.gms:play-services-maps:16.1.0'
     annotationProcessor "androidx.room:room-compiler:$room_version"
     androidTestImplementation 'androidx.test:runner:1.1.2-alpha01'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.1.2-alpha01'
     testImplementation 'junit:junit:4.12'
-
-
 
 }
 

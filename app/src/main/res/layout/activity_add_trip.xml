@@ -40,7 +40,7 @@
                 android:layout_marginHorizontal="@dimen/space_16"
                 android:layout_marginTop="@dimen/space_16"
                 android:layout_marginBottom="@dimen/space_8"
-                android:text="@string/destinaion"
+                android:text="@string/destination"
                 android:textSize="@dimen/dim_16"
                 android:textStyle="bold" />
 

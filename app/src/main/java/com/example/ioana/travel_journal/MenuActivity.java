@@ -145,7 +145,8 @@ public class MenuActivity extends AppCompatActivity
             transaction.commit();
 
         } else if (id == R.id.nav_about) {
-
+            startActivity(new Intent(this, MapsActivity.class));
+            finish();
         } else if (id == R.id.nav_contact) {
 
         } else if (id == R.id.nav_share) {

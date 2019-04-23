@@ -12,7 +12,7 @@
     <string name="favourite">Favourite</string>
     <string name="about_us">About Us</string>
     <string name="trip_name">Trip Name</string>
-    <string name="destinaion">Destination</string>
+    <string name="destination">Destination</string>
     <string name="trip_type">Trip Type</string>
     <string name="city_break">City break</string>
     <string name="sea_side">Sea side</string>
@@ -27,7 +27,7 @@
     <string name="log_out">Log Out</string>
     <string name="share">Share</string>
     <string name="send">Send</string>
-
+    <string name="check_out">Check out</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="select">Select</string>
@@ -40,4 +40,5 @@
     <string name="eur">Eur</string>
     <string name="start">Start Date:</string>
     <string name="end">End Date:</string>
+    <string name="title_activity_maps">Map</string>
 </resources>
