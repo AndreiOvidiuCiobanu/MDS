@@ -43,6 +43,7 @@ public class Trip implements Parcelable {
     @NonNull
     private String mDocumentId;
     @Ignore
+   // @ColumnInfo(name = "isFavorite")
     private boolean mIsFavourite;
 
     public Trip() {
@@ -175,7 +176,7 @@ public class Trip implements Parcelable {
         this.mEndDate = mEndDate;
     }
 
-    public boolean ismIsFavourite() {
+    public boolean getmIsFavourite() {
         return mIsFavourite;
     }
 

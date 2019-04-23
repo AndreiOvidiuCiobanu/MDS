@@ -195,11 +195,10 @@ public class HomeFragment extends Fragment {
                                 Trip trip = new Trip();
                                 trip.setMDestination(document.getData().get("destination")
                                         .toString());
-                            //    trip.setMName(document.getData().get("name").toString());
+                               // trip.setMName(document.getData().get("name").toString());
                                 trip.setMPrice(((Double)(document.getData().get("price")))
                                         .floatValue());
-                                trip.setMTripType(Trip.TripType.valueOf(document.getData()
-                                        .get("tripType").toString()));
+                               // trip.setMTripType(Trip.TripType.valueOf(document.getData().get("tripType").toString()));
 //                                trip.setMPicture(Uri.parse((String)document.getData()
 //                                        .get("picture")));
                                 trip.setMRating(((Double)(document.getData().get("rating")))

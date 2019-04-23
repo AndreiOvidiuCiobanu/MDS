@@ -37,6 +37,10 @@
                 android:id="@+id/log_out"
                 android:icon="@drawable/ic_baseline_exit_to_app_24px"
                 android:title="@string/log_out" />
+            <item
+                android:id="@+id/frindly_chat"
+                android:icon="@drawable/button"
+                android:title="Friendly Chat" />
         </menu>
     </item>
 

@@ -29,10 +29,9 @@ public class TripAdapter extends RecyclerView.Adapter<TripViewHolder> {
     @NonNull
     @Override
     public TripViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
-        //creem item-ul respectiv
+        //cream item-ul respectiv
         View tripView = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.trip_item, viewGroup, false);
         //returnam un viewHolder
-
         context = viewGroup.getContext();
         return new TripViewHolder(tripView);
     }
@@ -45,8 +44,8 @@ public class TripAdapter extends RecyclerView.Adapter<TripViewHolder> {
         tripViewHolder.mTextViewName.setText(trip.getMName());
         tripViewHolder.mTextViewRating.setText(trip.getMRating()+ "/5.0");
 
+        //TODO get image
 //        Bitmap tripImage = null;
-//
 //        try {
 //            tripImage = MediaStore.Images.Media.getBitmap(context.getContentResolver(),Uri.parse(trip.getMPicture().toString()));
 //        } catch (IOException e) {
@@ -54,27 +53,29 @@ public class TripAdapter extends RecyclerView.Adapter<TripViewHolder> {
 //        }
 //        tripViewHolder.mImageViewPicture.setImageBitmap(tripImage);
 
+//
+//        // TODO check favorite state
+//        if( tripViewHolder.mCheckBoxFavourite.isChecked()){
+//            mIsFavourite = true;
+//        }
+        //TODO set field is favorite in FIREBASE
+//        if(mIsFavourite){
+//            tripViewHolder.mCheckBoxFavourite.setVisibility(View.INVISIBLE);
+//        }
+//        else{
+//    -----> getmFavorite();
+//            tripViewHolder.mCheckBoxFavourite.setChecked((boolean)trip.get("isFavourite"));
+//        }
+
 
         /*byte[] decodedBytes = Base64.decode(trip.getmPicture(), 0);
         Bitmap tripImage = BitmapFactory.decodeByteArray(decodedBytes, 0, decodedBytes.length);*/
 
        /* tripViewHolder.mTextViewName.setText(trip.getMName());
         Bitmap tripImage = null;
+        */
 
-        try {
-            tripImage = MediaStore.Images.Media.getBitmap(context.getContentResolver(),
-            Uri.parse(trip.getMPicture().toString()));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        tripViewHolder.mImageViewPicture.setImageBitmap(tripImage);
-        tripViewHolder.mTextViewRating.setText(trip.getMRating() + "/5.0");
-        if (mIsFavourite) {
-            tripViewHolder.mCheckBoxFavourite.setVisibility(View.INVISIBLE);
-        } else {
 
-            tripViewHolder.mCheckBoxFavourite.setChecked(trip.ismIsFavourite());
-        }*/
     }
 
     @Override
