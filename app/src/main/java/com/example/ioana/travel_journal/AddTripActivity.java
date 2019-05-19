@@ -11,6 +11,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
@@ -25,6 +26,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Calendar;
+import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -32,7 +34,15 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.DialogFragment;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
+
 public class AddTripActivity extends AppCompatActivity {
+    private static final String TAG = "ADDTRIP";
     private EditText editTextDestination;
     private EditText editTextName;
     private RadioButton radioButtonCityBreak;
@@ -56,6 +66,7 @@ public class AddTripActivity extends AppCompatActivity {
     private Calendar calendarEnd = Calendar.getInstance();
     Bundle bundle;
     private FirestoreRepository mFirestoreRepository;
+    String currentTripId = "";
 
 
     @Override
@@ -72,33 +83,29 @@ public class AddTripActivity extends AppCompatActivity {
         /// this is done when i press long on a trip from home to see its details
         bundle = intent.getExtras();
         if (bundle != null) {
+            currentTripId = bundle.getString(HomeFragment.TRIP_ID);
+            FirebaseFirestore firebaseFirestore = FirebaseFirestore.getInstance();
+            firebaseFirestore.collection("Trips").document(currentTripId)
+                    .get()
+                    .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                        @Override
+                        public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                            if (task.isSuccessful()) {
+                                DocumentSnapshot document = task.getResult();
+                                if (document.exists()) {
+                                    Log.d(TAG, "DocumentSnapshot data: " + document.getData());
+                                    trip = getTrip(document);
+                                    updateUI();
+                                } else {
+                                    Log.d(TAG, "No such document");
+                                }
+                            } else {
+                                Log.d(TAG, "get failed with ", task.getException());
+                            }
+                        }
+                    });
 
-            trip = bundle.getParcelable("trip");
-            editTextDestination.setText(trip.getMDestination());
-            editTextName.setText(trip.getMName());
-            switch (trip.getMTripType()) {
-                case SEA_SIDE:
-                    radioButtonSeaSide.setChecked(true);
-                    break;
-                case MOUNTAINS:
-                    radioButtonMountains.setChecked(true);
-                    break;
-                case CITY_BREAK:
-                    radioButtonCityBreak.setChecked(true);
-                    break;
-            }
-            ratingBar.setRating(trip.getMRating());
-            seekBarPrice.setProgress((int) trip.getMPrice());
-            imageViewTrip.setVisibility(View.VISIBLE);
-            try {
-                imagine = MediaStore.Images.Media.getBitmap(this.getContentResolver(),
-                        trip.getMPicture());
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-            imageViewTrip.setImageBitmap(imagine);
-            calendarStart = trip.getMStartDate();
-            calendarEnd = trip.getMEndDate();
+
         }
 
         buttonStartDate.setOnClickListener(new View.OnClickListener() {
@@ -148,6 +155,35 @@ public class AddTripActivity extends AppCompatActivity {
                 takePicture();
             }
         });
+    }
+
+    private void updateUI() {
+        editTextDestination.setText(trip.getMDestination());
+        editTextName.setText(trip.getMName());
+        switch (trip.getMTripType()) {
+            case SEA_SIDE:
+                radioButtonSeaSide.setChecked(true);
+                break;
+            case MOUNTAINS:
+                radioButtonMountains.setChecked(true);
+                break;
+            case CITY_BREAK:
+                radioButtonCityBreak.setChecked(true);
+                break;
+        }
+        ratingBar.setRating(trip.getMRating());
+        seekBarPrice.setProgress((int) trip.getMPrice());
+        imageViewTrip.setVisibility(View.VISIBLE);
+//        try {
+//            imagine = MediaStore.Images.Media.getBitmap(this.getContentResolver(),
+//                    trip.getMPicture());
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
+        imageViewTrip.setImageBitmap(imagine);
+        //TODO check here
+        //calendarStart = trip.getMStartDate();
+       // calendarEnd = trip.getMEndDate();
     }
 
     private void takePicture() {
@@ -368,12 +404,31 @@ public class AddTripActivity extends AppCompatActivity {
         trip.setMName(editTextName.getText().toString());
 
         //TODO problema preluare imagine
-       // trip.setMPicture(UriConverter.touri(imageViewTrip.get)));
+        // trip.setMPicture(UriConverter.touri(imageViewTrip.get)));
 
         mFirestoreRepository.addTrip(trip);
 
-        Intent intent = new Intent(getApplicationContext(),MenuActivity.class);
+        Intent intent = new Intent(getApplicationContext(), MenuActivity.class);
         startActivity(intent);
         finish();
+    }
+
+    private Trip getTrip(DocumentSnapshot trip) {
+        Trip newTrip = new Trip();
+        newTrip.setMName((String) trip.get("name"));
+        newTrip.setMDestination((String) trip.get("destination"));
+        newTrip.setMPrice(((Double) trip.get("price")).floatValue());
+        newTrip.setMRating(((Double) trip.get("rating")).floatValue());
+        newTrip.setMTripType(Trip.TripType.valueOf(trip.get("tripType").toString()));
+        //TODO check here
+        //newTrip.setMPicture(Uri.parse((String) trip.get("picture")));
+        /*Calendar startDate = new GregorianCalendar();
+        startDate.setTimeInMillis((long) trip.get("startDate"));
+        newTrip.setMStartDate(startDate);
+        Calendar endDate = new GregorianCalendar();
+        startDate.setTimeInMillis((long) trip.get("endDate"));
+        newTrip.setMEndDate(endDate);*/
+        newTrip.setMDocumentId((String) trip.get("documentId"));
+        return newTrip;
     }
 }
