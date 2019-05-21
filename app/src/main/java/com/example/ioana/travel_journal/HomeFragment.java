@@ -74,6 +74,16 @@ public class HomeFragment extends Fragment {
         mRecyclerView.addOnItemTouchListener(new RecyclerTouchListener(this.getActivity(),
                 mRecyclerView, new TripClickListener() {
 
+            @Override
+            public void onLongClick(View view, final int position) {
+                String tripId = mData.get(position).getMDocumentId();
+                Intent intent = new Intent(getActivity(), AddTripActivity.class);
+                intent.putExtra(TRIP_ID, tripId);
+                startActivity(intent);
+
+
+
+            }
 
             @Override
             public void onClick(View view, final int position) {
@@ -140,15 +150,15 @@ public class HomeFragment extends Fragment {
                 }
             }
 
-            @Override
-            public void onLongClick(View view, int position) {
-                /*Intent intent = new Intent(getActivity(),AddTripActivity.class);
-                DocumentSnapshot trip = ((TripAdapter)mRecyclerView.getAdapter()).getItemAtPosition(position);
-                Trip newTrip = getTrip(trip);
-                intent.putExtra("trip",newTrip);
-                getActivity().startActivityForResult(intent,REQUEST_CODE);*/
-                //Toast.makeText(getActivity().getApplicationContext(),position + " " + newTrip,Toast.LENGTH_LONG).show();
-            }
+//            @Override
+//            public void onLongClick(View view, int position) {
+//                /*Intent intent = new Intent(getActivity(),AddTripActivity.class);
+//                DocumentSnapshot trip = ((TripAdapter)mRecyclerView.getAdapter()).getItemAtPosition(position);
+//                Trip newTrip = getTrip(trip);
+//                intent.putExtra("trip",newTrip);
+//                getActivity().startActivityForResult(intent,REQUEST_CODE);*/
+//                //Toast.makeText(getActivity().getApplicationContext(),position + " " + newTrip,Toast.LENGTH_LONG).show();
+//            }
         }));
 
         return view;

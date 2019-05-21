@@ -79,7 +79,6 @@ public class MenuActivity extends AppCompatActivity
 
         }
 
-        //TODO import user data in NAvigation Drawer
         NavigationView navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
