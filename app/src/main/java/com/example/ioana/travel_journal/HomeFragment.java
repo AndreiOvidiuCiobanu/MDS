@@ -1,9 +1,11 @@
 package com.example.ioana.travel_journal;
 
 
+import android.content.Intent;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,6 +13,7 @@ import android.widget.CheckBox;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
@@ -33,12 +36,13 @@ import static com.example.ioana.travel_journal.FirestoreRepository.TRIPS_COLLECT
  * A simple {@link Fragment} subclass.
  */
 public class HomeFragment extends Fragment {
+    public static final String TRIP_ID = "trip_id";
     private RecyclerView mRecyclerView;
     private List<Trip> mData;
     private String mDocumentID;
     private static final int REQUEST_CODE = 5123;
     TripAdapter adapter;
-    //AppDatabase appDatabase;
+    FirebaseFirestore firebaseFirestore;
     private boolean check = false;
     private FirestoreRepository mFirebaseRepository;
 
@@ -69,26 +73,29 @@ public class HomeFragment extends Fragment {
 
         mRecyclerView.addOnItemTouchListener(new RecyclerTouchListener(this.getActivity(),
                 mRecyclerView, new TripClickListener() {
-            private Trip getTrip(DocumentSnapshot trip) {
-                Trip newTrip = new Trip();
-                newTrip.setMName((String) trip.get("name"));
-                newTrip.setMDestination((String) trip.get("destination"));
-                newTrip.setMPrice(((Double) trip.get("price")).floatValue());
-                newTrip.setMRating(((Double) trip.get("rating")).floatValue());
-                newTrip.setMTripType(Trip.TripType.valueOf(trip.get("tripType").toString()));
-                newTrip.setMPicture(Uri.parse((String) trip.get("picture")));
-                Calendar startDate = new GregorianCalendar();
-                startDate.setTimeInMillis((long) trip.get("startDate"));
-                newTrip.setMStartDate(startDate);
-                Calendar endDate = new GregorianCalendar();
-                startDate.setTimeInMillis((long) trip.get("endDate"));
-                newTrip.setMEndDate(endDate);
-                newTrip.setMDocumentId((String) trip.get("documentId"));
-                return newTrip;
+
+            @Override
+            public void onLongClick(View view, final int position) {
+                String tripId = mData.get(position).getMDocumentId();
+                Intent intent = new Intent(getActivity(), AddTripActivity.class);
+                intent.putExtra(TRIP_ID, tripId);
+                startActivity(intent);
+
+
+
             }
 
             @Override
             public void onClick(View view, final int position) {
+
+                String tripId = mData.get(position).getMDocumentId();
+                Intent intent = new Intent(getActivity(), AddTripActivity.class);
+                intent.putExtra(TRIP_ID, tripId);
+                startActivity(intent);
+
+
+
+
                 final CheckBox checkBoxFavourite = view.findViewById(R.id.checkbox_bookmark);
                 checkBoxFavourite.requestFocus();
                 checkBoxFavourite.setOnClickListener(new View.OnClickListener() {
@@ -143,15 +150,15 @@ public class HomeFragment extends Fragment {
                 }
             }
 
-            @Override
-            public void onLongClick(View view, int position) {
-                /*Intent intent = new Intent(getActivity(),AddTripActivity.class);
-                DocumentSnapshot trip = ((TripAdapter)mRecyclerView.getAdapter()).getItemAtPosition(position);
-                Trip newTrip = getTrip(trip);
-                intent.putExtra("trip",newTrip);
-                getActivity().startActivityForResult(intent,REQUEST_CODE);*/
-                //Toast.makeText(getActivity().getApplicationContext(),position + " " + newTrip,Toast.LENGTH_LONG).show();
-            }
+//            @Override
+//            public void onLongClick(View view, int position) {
+//                /*Intent intent = new Intent(getActivity(),AddTripActivity.class);
+//                DocumentSnapshot trip = ((TripAdapter)mRecyclerView.getAdapter()).getItemAtPosition(position);
+//                Trip newTrip = getTrip(trip);
+//                intent.putExtra("trip",newTrip);
+//                getActivity().startActivityForResult(intent,REQUEST_CODE);*/
+//                //Toast.makeText(getActivity().getApplicationContext(),position + " " + newTrip,Toast.LENGTH_LONG).show();
+//            }
         }));
 
         return view;
@@ -198,6 +205,7 @@ public class HomeFragment extends Fragment {
                                // trip.setMName(document.getData().get("name").toString());
                                 trip.setMPrice(((Double)(document.getData().get("price")))
                                         .floatValue());
+                                trip.setMDocumentId(document.getId());
                                // trip.setMTripType(Trip.TripType.valueOf(document.getData().get("tripType").toString()));
 //                                trip.setMPicture(Uri.parse((String)document.getData()
 //                                        .get("picture")));
@@ -215,4 +223,6 @@ public class HomeFragment extends Fragment {
                 });
         return trips;
     }
+
+
 }

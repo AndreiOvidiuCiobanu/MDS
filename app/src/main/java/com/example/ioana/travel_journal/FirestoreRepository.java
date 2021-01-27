@@ -76,6 +76,32 @@ public class FirestoreRepository {
                 });
     }
 
+
+    public void updateTrip(Trip item, String id) {     //TODO think we need a new method for update
+        Map<String, Object> theItem = new HashMap<>();
+        theItem.put(DESTINATION, item.getMDestination());
+        //theItem.put(ID,item.getMDocumentId());
+        theItem.put(ENDDATE,item.getMEndDate());
+        theItem.put(PICTURE,item.getMPicture());
+        theItem.put(PRICE,item.getMPrice());
+        theItem.put(RATING,item.getMRating());
+        theItem.put(STARTDATE,item.getMStartDate());
+        theItem.put(TRIPTYPE,item.getMTripType());
+        theItem.put(NAME, item.getMName());
+        //..... put pt toate valorile
+
+        //TODO put isFavorite
+        // theItem.put(ISFAVORITE,item.getmIsFavourite());
+
+
+        if (mFirebaseFirestore.collection(TRIPS_COLLECTION)
+               .document().getId().equals(id)){
+            mFirebaseFirestore.collection(TRIPS_COLLECTION)
+                    .document()
+                    .update( theItem);
+        }
+    }
+
     private void displayMessage(String s) {
         Toast.makeText(mContext, s, Toast.LENGTH_SHORT).show();
     }
